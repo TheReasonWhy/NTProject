@@ -5,6 +5,8 @@
 #include <QList>
 #include <QMap>
 #include "coreenums.h"
+#include "period.h"
+
 
 using namespace corespace;
 class point3D{

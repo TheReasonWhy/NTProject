@@ -7,7 +7,7 @@
 class workerFinal  : public workerBase{
     Q_OBJECT
 public:
-    workerFinal(const QUuid uid, const QList <workerBase> children) = delete;
+    workerFinal(const QUuid uid, const QSharedPointer<workerBase>  children) = delete;
     workerFinal(const QUuid uid, const int capacity):workerBase(uid){
         updateCapacity(capacity);
     };

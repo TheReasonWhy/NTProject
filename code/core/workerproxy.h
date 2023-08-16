@@ -8,6 +8,9 @@ class workerproxy : public workerBase{
     Q_OBJECT
 public:
     workerproxy();
+    workerproxy(const QUuid uid, const QList <QSharedPointer<workerBase>> children):workerBase(uid, children){
+
+    };
 };
 
 #endif // WORKERPROXY_H

@@ -18,7 +18,12 @@ SOURCES += \
     $${CORE_DIR}/workerback.cpp \
     $${CORE_DIR}/workerbase.cpp \
     $${CORE_DIR}/workerfinal.cpp \
-    $${CORE_DIR}/workerproxy.cpp
+    $${CORE_DIR}/workerproxy.cpp \
+    $${CORE_DIR}/database.cpp \
+    $${CORE_DIR}/space.cpp \
+    $${CORE_DIR}/period.cpp \
+    $${CORE_DIR}/module.cpp \
+    ../../code/core/moduleexecutor.cpp
 
 HEADERS += \
     $${CORE_DIR}/coreenums.h \
@@ -26,7 +31,12 @@ HEADERS += \
     $${CORE_DIR}/workerback.h \
     $${CORE_DIR}/workerbase.h \
     $${CORE_DIR}/workerfinal.h \
-    $${CORE_DIR}/workerproxy.h
+    $${CORE_DIR}/workerproxy.h \
+    $${CORE_DIR}/database.h \
+    $${CORE_DIR}/space.h \
+    $${CORE_DIR}/period.h \
+    $${CORE_DIR}/module.h \
+    ../../code/core/moduleexecutor.h
 
 # Default rules for deployment.
 unix {
