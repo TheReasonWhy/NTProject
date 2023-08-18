@@ -23,7 +23,8 @@ SOURCES += \
     $${CORE_DIR}/space.cpp \
     $${CORE_DIR}/period.cpp \
     $${CORE_DIR}/module.cpp \
-    ../../code/core/moduleexecutor.cpp
+    $${CORE_DIR}/moduleexecutor.cpp
+    $${CORE_DIR}/initializer.cpp
 
 HEADERS += \
     $${CORE_DIR}/coreenums.h \
@@ -36,7 +37,8 @@ HEADERS += \
     $${CORE_DIR}/space.h \
     $${CORE_DIR}/period.h \
     $${CORE_DIR}/module.h \
-    ../../code/core/moduleexecutor.h
+    $${CORE_DIR}/moduleexecutor.h
+    $${CORE_DIR}/initializer.h
 
 # Default rules for deployment.
 unix {
