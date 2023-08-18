@@ -18,7 +18,8 @@ SOURCES += \
     $${CORE_DIR}/workerback.cpp \
     $${CORE_DIR}/workerbase.cpp \
     $${CORE_DIR}/workerfinal.cpp \
-    $${CORE_DIR}/workerproxy.cpp
+    $${CORE_DIR}/workerproxy.cpp \
+    $${CORE_DIR}/initializer.cpp
 
 HEADERS += \
     $${CORE_DIR}/coreenums.h \
@@ -26,7 +27,8 @@ HEADERS += \
     $${CORE_DIR}/workerback.h \
     $${CORE_DIR}/workerbase.h \
     $${CORE_DIR}/workerfinal.h \
-    $${CORE_DIR}/workerproxy.h
+    $${CORE_DIR}/workerproxy.h \
+    $${CORE_DIR}/initializer.h
 
 # Default rules for deployment.
 unix {
