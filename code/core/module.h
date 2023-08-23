@@ -5,19 +5,25 @@
 #include <QCommandLineParser>
 #include <QUuid>
 
+class initializer;
+
 class module : public QObject
 {
     Q_OBJECT
 public:
-    module();
-    bool commandLineWork(const QList<QCommandLineOption> &options = QList<QCommandLineOption>(), std::function<bool (QCommandLineParser &parser)> *customCommandLineWork = nullptr);
+    module(QObject *parent = nullptr);
+    module(QSharedPointer<initializer> _initializer, QObject *parent = nullptr);
+    virtual ~module();
+    bool parseCommandLine(const QList<QCommandLineOption> &options = QList<QCommandLineOption>(), std::function<bool (QCommandLineParser &parser)> *customCommandLineWork = nullptr);
 
-
-    QUuid moduleUuid() const { return uid; }
+    virtual bool parseIniFile();
+    QUuid moduleUuid() const;
     bool start();
-private:
 
+protected:
     QUuid uid;
+    QSharedPointer<initializer> m_initializer;
+    QSharedPointer<QJsonObject> m_current_settings;
 };
 
 #endif // MODULE_H

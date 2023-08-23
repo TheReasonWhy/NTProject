@@ -1,11 +1,18 @@
 #include "module.h"
+#include "initializer.h"
 
-module::module()
+module::module(QObject *parent):QObject(parent),
+    m_initializer(nullptr){}
+
+module::module(QSharedPointer<initializer> _initializer, QObject *parent):QObject(parent),
+    m_initializer(_initializer)
 {
-
+    m_initializer.get()->readSettings();
 }
 
-bool module::commandLineWork(const QList<QCommandLineOption> &options, std::function<bool (QCommandLineParser &)> *customCommandLineWork)
+module::~module(){}
+
+bool module::parseCommandLine(const QList<QCommandLineOption> &options, std::function<bool (QCommandLineParser &)> *customCommandLineWork)
 {
 
     QCommandLineParser parser;
@@ -24,6 +31,10 @@ bool module::commandLineWork(const QList<QCommandLineOption> &options, std::func
 
     return true;
 }
+
+bool module::parseIniFile(){return true;}
+
+QUuid module::moduleUuid() const { return uid; }
 
 bool module::start()
 {
