@@ -2,7 +2,34 @@
 #define DATABASE_H
 
 #include <QObject>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlDriver>
+#include <QTimer>
+#include <QtSql/QSqlRecord>
+#include <QtSql/QSqlError>
+#include <QUuid>
+#include <QVariant>
+#include <QMap>
+#include <QtSql/QSqlField>
 
+struct dbSettings {
+    QString hostName;
+    int port = 0;
+    QString dbName;
+    QString userName;
+    QString password;
+
+    static dbSettings settings() {
+        dbSettings settings;
+        settings.hostName = "localhost";
+        settings.port = 5432;
+        settings.dbName = "testDb";
+        settings.userName = "postgres";
+        settings.password = "postgres";
+        return settings;
+    }
+};
 class database : public QObject
 {
     Q_OBJECT
@@ -10,8 +37,42 @@ public:
     database();;
     bool start();
     void stop();
-private:
+    void restartKeepAliveTimer();
+    void setLastError(const QSqlError& error);
+    void updateDatabaseState(bool isLastCommandFailed);
+    void slotKeepAlive();
+    void keepAlive(bool shouldCheckDb);
+    void reconnect();
+    bool openDb(QSqlDatabase& db);
 
+    bool beginTransaction();
+    bool beginTransactionSerializable();
+    bool commitTransaction();
+    bool rollbackTransaction();
+
+    QSqlQuery executeCommand(const QString& command);
+    bool executeSimpleCommand(const QString& command);
+    bool executeQuery(QSqlQuery& query);
+    static QString paramToString(const QVariant& v);
+    QSqlQuery prepareQuery(const QString& sql, bool isSaveToPreparedMap);
+
+    bool prepareQuery(QSqlQuery& query, const QString& queryStr);
+
+signals:
+    void signalConnectionLost();
+    void signalReconnected();
+private:
+    QSqlDatabase _db;
+    bool is_connected = false;
+    bool is_connecting = false;
+    bool is_error = false;
+    bool m_transaction = false;
+    int m_transactionLevel = 0;
+    QUuid m_transactionUuid;
+    QString m_lastError;
+    dbSettings db_settings = dbSettings::settings();
+    QTimer *m_timer;
+    QMap<QString, QSqlQuery> m_preparedQueries;
 };
 
 #endif // DATABASE_H
