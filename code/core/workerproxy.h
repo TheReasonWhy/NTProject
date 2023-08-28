@@ -11,6 +11,7 @@ public:
     workerproxy(const QUuid uid, const QList <QSharedPointer<workerBase>> children):workerBase(uid, children){
 
     };
+    virtual void start()override;
 };
 
 #endif // WORKERPROXY_H

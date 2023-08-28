@@ -1,10 +1,23 @@
 #include "moduleexecutor.h"
+#include <QSettings>
 
 int moduleExecutor::exec(int argc, char *argv[], module *_module)
 {
+    qDebug()<<"moduleExecutor::exec";
     QCoreApplication a(argc, argv);
     QDir::setCurrent(QCoreApplication::applicationDirPath());
-    if (!_module->commandLineWork()){
+    QDir dir;
+    if(!dir.exists(QCoreApplication::applicationDirPath()+"/config")){
+        if(dir.mkpath(QCoreApplication::applicationDirPath()+"/config")){
+
+        }
+    }
+    QFile p(QCoreApplication::applicationDirPath()+"/config/parameters");
+    if(p.open(QIODevice::ReadWrite)){
+        p.close();
+    }
+    //QSettings s(QCoreApplication::applicationDirPath()+"/config/parameters", QSettings::IniFormat);
+    if (!_module->parseIniFile()){
         return 1;
     }
     if (!_module->start()){

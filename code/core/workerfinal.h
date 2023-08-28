@@ -12,6 +12,7 @@ public:
         updateCapacity(capacity);
     };
 
+    virtual void start()override;
     QList <workerBase> m_children;
 };
 

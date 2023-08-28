@@ -9,9 +9,9 @@ class workerback : public workerBase
     Q_OBJECT
 public:
     workerback();
-    workerback(const QUuid uid, const QList <QSharedPointer<workerBase>> children):workerBase(uid, children){
-
-    };
+    workerback(const QUuid uid, const QList <QSharedPointer<workerBase>> children);;
+    virtual ~workerback()override{}
+    virtual void start()override;
 };
 
 #endif // WORKERBACK_H

@@ -23,7 +23,9 @@ SOURCES += \
     $${CORE_DIR}/period.cpp \
     $${CORE_DIR}/module.cpp \
     $${CORE_DIR}/moduleexecutor.cpp \
-    $${CORE_DIR}/initializer.cpp
+    $${CORE_DIR}/initializer.cpp \
+    ../../code/core/dbobject.cpp \
+    ../../code/core/message.cpp
 
 HEADERS += \
     $${CORE_DIR}/coreenums.h \
@@ -37,10 +39,14 @@ HEADERS += \
     $${CORE_DIR}/period.h \
     $${CORE_DIR}/module.h \
     $${CORE_DIR}/moduleexecutor.h \
-    $${CORE_DIR}/initializer.h
+    $${CORE_DIR}/initializer.h \
+    ../../code/core/dbobject.h \
+    ../../code/core/message.h
 
 # Default rules for deployment.
 unix {
     target.path = $$[QT_INSTALL_PLUGINS]/generic
 }
 !isEmpty(target.path): INSTALLS += target
+
+unix:    LIBS += -lpq -lcrypto

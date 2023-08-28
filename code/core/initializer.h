@@ -4,21 +4,6 @@
 #include <QObject>
 #include <QSettings>
 #include <QJsonObject>
-/*
-    QString hostName;
-    int port = 0;
-    QString dbName;
-    QString userName;
-    QString password;
-        upper_network -- может отсутствовать
-            ip
-            gateway
-            subnet
-        lower_network -- может отсутствовать
-            ip
-            gateway
-            subnet
- */
 
 class initializer : public QObject
 {
@@ -30,7 +15,7 @@ public:
         server_ip
     };
     initializer();
-    ~initializer();
+    virtual ~initializer();
     void set_default_MODULE(const settings_module sett_);
 
     void sync();
@@ -54,7 +39,7 @@ public:
         password
     };
     initializer_back();
-    ~initializer_back();
+    ~initializer_back()override;
 
     void set_default_DATABASE(const settings_db sett_);
     bool readSettings();

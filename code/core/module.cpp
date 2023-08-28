@@ -1,11 +1,22 @@
 #include "module.h"
+#include "initializer.h"
 
-module::module()
+module::module(QObject *parent):QObject(parent),
+    m_initializer(nullptr),
+    m_current_settings(QSharedPointer<QJsonObject>(new QJsonObject())){
+    qDebug()<<"module::module";}
+
+module::module(QSharedPointer<initializer> _initializer, QSharedPointer<workerBase> _worker, QObject *parent):QObject(parent),
+    m_initializer(_initializer),
+    m_current_settings(QSharedPointer<QJsonObject>(new QJsonObject())),
+    m_worker(_worker)
 {
-
+    qDebug()<<"module::module 2";
 }
 
-bool module::commandLineWork(const QList<QCommandLineOption> &options, std::function<bool (QCommandLineParser &)> *customCommandLineWork)
+module::~module(){}
+
+bool module::parseCommandLine(const QList<QCommandLineOption> &options, std::function<bool (QCommandLineParser &)> *customCommandLineWork)
 {
 
     QCommandLineParser parser;
@@ -25,7 +36,16 @@ bool module::commandLineWork(const QList<QCommandLineOption> &options, std::func
     return true;
 }
 
+bool module::parseIniFile(){
+    m_initializer->readSettings();
+    return true;
+}
+
+QUuid module::moduleUuid() const { return uid; }
+
 bool module::start()
 {
+    qDebug()<<"module::start()";
+    m_worker.get()->start();
     return true;
 }

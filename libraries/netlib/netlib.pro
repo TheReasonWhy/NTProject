@@ -13,10 +13,18 @@ CORE_DIR = $${PWD}/../../code/core
 INCLUDEPATH += $${CORE_DIR}
 
 SOURCES += \
-    $${CORE_DIR}/netlib.cpp
+    $${CORE_DIR}/netlib.cpp \
+    ../../code/core/client.cpp \
+    ../../code/core/communicator.cpp \
+    ../../code/core/message.cpp \
+    ../../code/core/server.cpp
 
 HEADERS += \
-    $${CORE_DIR}/netlib.h
+    $${CORE_DIR}/netlib.h \
+    ../../code/core/client.h \
+    ../../code/core/communicator.h \
+    ../../code/core/message.h \
+    ../../code/core/server.h
 
 # Default rules for deployment.
 unix {

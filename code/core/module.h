@@ -4,20 +4,28 @@
 #include <QObject>
 #include <QCommandLineParser>
 #include <QUuid>
+#include "workerbase.h"
+
+class initializer;
 
 class module : public QObject
 {
     Q_OBJECT
 public:
-    module();
-    bool commandLineWork(const QList<QCommandLineOption> &options = QList<QCommandLineOption>(), std::function<bool (QCommandLineParser &parser)> *customCommandLineWork = nullptr);
+    module(QObject *parent = nullptr);
+    module(QSharedPointer<initializer> _initializer, QSharedPointer<workerBase> _worker, QObject *parent = nullptr);
+    virtual ~module();
+    bool parseCommandLine(const QList<QCommandLineOption> &options = QList<QCommandLineOption>(), std::function<bool (QCommandLineParser &parser)> *customCommandLineWork = nullptr);
 
+    virtual bool parseIniFile();
+    QUuid moduleUuid() const;
+    virtual bool start();
 
-    QUuid moduleUuid() const { return uid; }
-    bool start();
-private:
-
+protected:
     QUuid uid;
+    QSharedPointer<initializer> m_initializer;
+    QSharedPointer<QJsonObject> m_current_settings;
+    QSharedPointer<workerBase> m_worker;
 };
 
 #endif // MODULE_H
