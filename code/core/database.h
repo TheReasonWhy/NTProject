@@ -14,6 +14,12 @@
 #include <QtSql/QSqlField>
 
 
+
+class database : public QObject
+{
+    Q_OBJECT
+
+public:
     struct dbSettings {
         dbSettings();
         void swap(dbSettings& src) noexcept;
@@ -26,6 +32,7 @@
         dbSettings(dbSettings&& src) noexcept;
         dbSettings &operator=(const dbSettings & src);
         dbSettings& operator=(dbSettings&& src) noexcept;
+        QString getHostname()const{return hostName;}
 
         QString hostName;
         int port = 0;
@@ -33,11 +40,8 @@
         QString userName;
         QString password;
     };
-class database : public QObject
-{
-    Q_OBJECT
-public:
-    database();
+    database(const dbSettings sett, QObject *parent = nullptr);
+    ~database();
     bool start();
     void stop();
     void restartKeepAliveTimer();
@@ -61,6 +65,9 @@ public:
 
     bool prepareQuery(QSqlQuery& query, const QString& queryStr);
 
+    QString selectAllModulesStr();
+    QString selectAllTasksStr();
+
 signals:
     void signalConnectionLost();
     void signalReconnected();
@@ -73,7 +80,7 @@ private:
     int m_transactionLevel = 0;
     QUuid m_transactionUuid;
     QString m_lastError;
-    dbSettings db_settings;
+    dbSettings m_db_settings;
     QTimer *m_timer;
     QMap<QString, QSqlQuery> m_preparedQueries;
 };

@@ -3,6 +3,7 @@
 
 int moduleExecutor::exec(int argc, char *argv[], module *_module)
 {
+    qDebug()<<"moduleExecutor::exec";
     QCoreApplication a(argc, argv);
     QDir::setCurrent(QCoreApplication::applicationDirPath());
     QDir dir;
@@ -16,7 +17,7 @@ int moduleExecutor::exec(int argc, char *argv[], module *_module)
         p.close();
     }
     //QSettings s(QCoreApplication::applicationDirPath()+"/config/parameters", QSettings::IniFormat);
-    if (!_module->parseCommandLine()){
+    if (!_module->parseIniFile()){
         return 1;
     }
     if (!_module->start()){

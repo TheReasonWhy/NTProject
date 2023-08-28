@@ -4,26 +4,16 @@
 #include <QCoreApplication>
 #include "coreenums.h"
 
-initializer::initializer():
-    m_path(QCoreApplication::applicationDirPath()+"/config/parameters")
+initializer::initializer()
 {
-    QDir dir;
-    if(!dir.exists(QCoreApplication::applicationDirPath()+"/config")){
-        if(dir.mkpath(QCoreApplication::applicationDirPath()+"/config")){
+    qDebug()<<"initializer::initializer()";
 
-        }
-    }
-    QFile p(m_path);
-    if(p.open(QIODevice::ReadWrite)){
-        p.close();
-    }
-    m_settings = new QSettings(m_path, QSettings::IniFormat);
-    readSettings();
+    //readSettings();
 }
 
 initializer::~initializer()
 {
-
+    if(m_settings){delete m_settings;}
 }
 
 void initializer::set_default_MODULE(const settings_module sett_){
@@ -43,14 +33,27 @@ void initializer::set_default_MODULE(const settings_module sett_){
         val = corespace::defaults::server_ip;
         break;
     }
-    m_settings->beginGroup("MODULEUUID");
+    m_settings->beginGroup("MODULEDATA");
     m_settings->setValue(param, val);
     m_settings->endGroup();
 }
 
 bool initializer::readSettings()
 {
-    QJsonObject dbauth = read_property_group("MODULE");
+    qDebug()<<"initializer::readSettings()";
+    m_path = (QCoreApplication::applicationDirPath()+"/config/parameters");
+    QDir dir;
+    if(!dir.exists(QCoreApplication::applicationDirPath()+"/config")){
+        if(dir.mkpath(QCoreApplication::applicationDirPath()+"/config")){
+
+        }
+    }
+    QFile p(m_path);
+    if(p.open(QIODevice::ReadWrite)){
+        p.close();
+    }
+    m_settings = new QSettings(m_path, QSettings::IniFormat);
+    QJsonObject dbauth = read_property_group("MODULEDATA");
 
     if(!dbauth.contains("MODULEUUID") || (dbauth.value("MODULEUUID").toString() == "")){
         set_default_MODULE(settings_module::moduleuuid);
@@ -82,9 +85,9 @@ QJsonObject initializer::read_property_group(const QString code)
     return res;
 }
 
-initializer_back::initializer_back()
+initializer_back::initializer_back():initializer()
 {
-
+    qDebug()<<"initializer_back::initializer_back()";
 }
 
 initializer_back::~initializer_back()
@@ -130,6 +133,20 @@ void initializer::sync()
 
 bool initializer_back::readSettings()
 {
+    qDebug()<<"initializer_back::readSettings()";
+    initializer::readSettings();
+    m_path = (QCoreApplication::applicationDirPath()+"/config/parameters");
+    QDir dir;
+     if(!dir.exists(QCoreApplication::applicationDirPath()+"/config")){
+         if(dir.mkpath(QCoreApplication::applicationDirPath()+"/config")){
+
+         }
+     }
+     QFile p(m_path);
+     if(p.open(QIODevice::ReadWrite)){
+         p.close();
+     }
+     m_settings = new QSettings(m_path, QSettings::IniFormat);
     bool m_static_ip_mode(true);
     QJsonObject dbauth = read_property_group("DATABASE");
 

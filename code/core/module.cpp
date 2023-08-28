@@ -2,12 +2,16 @@
 #include "initializer.h"
 
 module::module(QObject *parent):QObject(parent),
-    m_initializer(nullptr){}
+    m_initializer(nullptr),
+    m_current_settings(QSharedPointer<QJsonObject>(new QJsonObject())){
+    qDebug()<<"module::module";}
 
-module::module(QSharedPointer<initializer> _initializer, QObject *parent):QObject(parent),
-    m_initializer(_initializer)
+module::module(QSharedPointer<initializer> _initializer, QSharedPointer<workerBase> _worker, QObject *parent):QObject(parent),
+    m_initializer(_initializer),
+    m_current_settings(QSharedPointer<QJsonObject>(new QJsonObject())),
+    m_worker(_worker)
 {
-    m_initializer.get()->readSettings();
+    qDebug()<<"module::module 2";
 }
 
 module::~module(){}
@@ -32,11 +36,16 @@ bool module::parseCommandLine(const QList<QCommandLineOption> &options, std::fun
     return true;
 }
 
-bool module::parseIniFile(){return true;}
+bool module::parseIniFile(){
+    m_initializer->readSettings();
+    return true;
+}
 
 QUuid module::moduleUuid() const { return uid; }
 
 bool module::start()
 {
+    qDebug()<<"module::start()";
+    m_worker.get()->start();
     return true;
 }
