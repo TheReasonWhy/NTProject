@@ -24,7 +24,8 @@ SOURCES += \
     $${CORE_DIR}/module.cpp \
     $${CORE_DIR}/moduleexecutor.cpp \
     $${CORE_DIR}/initializer.cpp \
-    ../../code/core/dbobject.cpp
+    ../../code/core/dbobject.cpp \
+    ../../code/core/message.cpp
 
 HEADERS += \
     $${CORE_DIR}/coreenums.h \
@@ -39,7 +40,8 @@ HEADERS += \
     $${CORE_DIR}/module.h \
     $${CORE_DIR}/moduleexecutor.h \
     $${CORE_DIR}/initializer.h \
-    ../../code/core/dbobject.h
+    ../../code/core/dbobject.h \
+    ../../code/core/message.h
 
 # Default rules for deployment.
 unix {

@@ -5,18 +5,8 @@
 #include <QUuid>
 #include "period.h"
 #include <QSharedPointer>
-/*
-    period - время жизни модуля или задания
-    periodable - что-то имеющее время жизни
-        ресурс
-        ресурсоемкость
-
-        resource - time
-        resource_type
-        task : resource_consumer
-        path : resource_consumer
-    capacity
-*/
+#include <QMap>
+#include <task.h>
 
 class workerBase : public QObject{
     Q_OBJECT
